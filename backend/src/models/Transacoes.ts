@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 class Transacoes {
   id: string;
   title: string;
-  value: string;
+  value: number;
   type: 'income' | 'outcome';
 
   constructor({ title, value, type }: Omit<Transacoes, 'id'>) {
