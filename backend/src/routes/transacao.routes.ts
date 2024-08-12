@@ -1,38 +1,18 @@
-// import { Router, Request, Response } from 'express';
+import { Router, Request, Response } from 'express';
+import TransacaoRepository from '../repositories/TransacaoRepository';
 
-// const transacaoRouter = Router();
+const transacaoRouter = Router();
 
-// const nomes: { name: string }[] = [];
+const novaTransacao = new TransacaoRepository();
 
-// transacaoRouter.get('/', (request, response) => {
-//   try {
-//     return response.json({ nomes });
-//   } catch {
-//     response.status(500).json({ message: 'Ocorreu um erro interno' });
-//   }
-// });
+transacaoRouter.get('/', (request, response) => {});
 
-// transacaoRouter.post('/', (request, response) => {
-//   try {
-//     const { name } = request.body;
+transacaoRouter.post('/', (request, response) => {
+  try {
+    const { title, value, type } = request.body;
+  } catch {
+    return response.status(400).json({ error: 'Erro ao cadastrar transacao' });
+  }
+});
 
-//     const nome = {
-//       name,
-//     };
-
-//     if (typeof name === 'string') {
-//       const nome = {
-//         name,
-//       };
-//       nomes.push(nome);
-
-//       return response.status(200).json({ message: `nome recebido ${name}` });
-//     } else {
-//       return response.status(400).json({ message: 'nome deve ser string' });
-//     }
-//   } catch {
-//     response.status(500).json({ message: 'Ocorreu um erro interno' });
-//   }
-// });
-
-// export default transacaoRouter;
+export default transacaoRouter;

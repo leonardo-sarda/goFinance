@@ -1,15 +1,15 @@
-class Nomes {
+class Users {
   name: string;
-  cidade?: string;
+  cidade: string;
 
   // constructor({ name }: Omit<Nomes>) {
   //   this.name = name;
   // }
 
-  constructor(name: string, cidade: string) {
+  constructor({ name, cidade }: Users) {
     this.name = name;
     this.cidade = cidade;
   }
 }
 
-export default Nomes;
+export default Users;

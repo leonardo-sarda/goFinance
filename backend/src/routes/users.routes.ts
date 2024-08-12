@@ -3,39 +3,44 @@
 
 import { Router, Request, Response } from 'express';
 
-import Nomes from '../models/Nomes';
+import Users from '../models/Users';
+import CreateUserService from '../services/CreateUsersService';
+import UsersRepositories from '../repositories/UsersRepository';
 
 const usersRouter = Router();
 
-const nomes: Nomes[] = [];
+const novoUsuario = new UsersRepositories();
 
 usersRouter.get('/', (request, response) => {
   try {
-    return response.json({ nomes });
+    return response.json(novoUsuario);
   } catch {
-    response.status(500).json({ message: 'Ocorreu um erro interno' });
+    response
+      .status(500)
+      .json({ message: 'Ocorreu um erro interno para listar' });
   }
 });
 
 usersRouter.post('/', (request, response) => {
   try {
+    //pego as informações enviadas
     const { name, cidade } = request.body;
 
-    const nome = new Nomes(name, cidade);
+    // faço um novo serice para executar
+    const criandoUsuario = new CreateUserService(novoUsuario);
 
-    if (typeof name === 'string') {
-      const nome = {
-        name,
-        cidade,
-      };
-      nomes.push(nome);
+    //executo o service
+    const usuario = criandoUsuario.execute({
+      name,
+      cidade,
+    });
 
-      return response.status(200).json({ message: `nome recebido ${name}` });
-    } else {
-      return response.status(400).json({ message: 'nome deve ser string' });
-    }
+    //retorno o service
+    return response.json(usuario);
   } catch {
-    response.status(500).json({ message: 'Ocorreu um erro interno' });
+    response.status(500).json({
+      message: 'Ocorreu um erro interno para Criar essa mensagem ta no routes',
+    });
   }
 });
 
