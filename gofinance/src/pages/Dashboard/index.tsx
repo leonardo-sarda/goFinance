@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+import api from '../../service/api';
+import formatValue from '../../utils/formatValue';
 
 import Income from '../../assets/income.svg';
 import Outcome from '../../assets/outcome.svg';
@@ -6,8 +9,35 @@ import Total from '../../assets/total.svg';
 
 import Header from '../../components/Header';
 import { Container, CardContainer, Card, TableContainer } from './style';
+import ComponentStyle from 'styled-components/dist/models/ComponentStyle';
+
+interface Transacao {
+  id: number;
+  title: string;
+  value: number;
+  valorFormatada: string;
+  type: 'income' | 'outcome';
+}
 
 const Dashboard: React.FC = () => {
+  const [transacoes, setTransacoes] = useState<Transacao[]>([]);
+
+  useEffect(() => {
+    async function loadTransacao(): Promise<void> {
+      const response = await api.get('/transacao');
+
+      const listarTransacao = response.data.listar.map(
+        (transacao: Transacao) => ({
+          ...transacao,
+          valorFormatada: formatValue(transacao.value),
+        }),
+      );
+
+      setTransacoes(listarTransacao);
+    }
+
+    loadTransacao();
+  }, []);
   return (
     <>
       <Header />
@@ -43,17 +73,19 @@ const Dashboard: React.FC = () => {
                 <th>Título</th>
                 <th>Preço</th>
                 <th>Categoria</th>
-                <th>Data</th>
+                <th>teste</th>
               </tr>
             </thead>
 
             <tbody>
-              <tr>
-                <td>Desenvolvimento</td>
-                <td>500</td>
-                <td>Food</td>
-                <td>02/05/2024</td>
-              </tr>
+              {transacoes.map((transacao) => (
+                <tr key={transacao.id}>
+                  <td className="title">{transacao.title}</td>
+                  <td className="value">{transacao.valorFormatada}</td>
+                  <td className="type">{transacao.type}</td>
+                  <td className="id">{transacao.id}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </TableContainer>

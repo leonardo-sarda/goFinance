@@ -65,7 +65,7 @@ export const TableContainer = styled.section`
       background: #fff;
       font-size: 16px;
       font-weight: normal;
-      color: #969cb3;
+      color: blue;
 
       &.title {
         color: #363f5f;

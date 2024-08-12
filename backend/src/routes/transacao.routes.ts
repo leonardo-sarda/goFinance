@@ -8,8 +8,8 @@ const novaTransacao = new TransacaoRepository();
 
 transacaoRouter.get('/', (request, response) => {
   const listar = novaTransacao.all();
-  const balance = novaTransacao.getBalance();
-  return response.json({ listar, balance });
+  //const balance = novaTransacao.getBalance();
+  return response.json({ listar });
 });
 
 transacaoRouter.post('/', (request, response) => {
