@@ -1,10 +1,15 @@
+/////Criar usuario, nome e cidade....
+//// Vou mudar de nome para users.routes.... a classe nome vai virar User, onde é eu crio o usuario
+
 import { Router, Request, Response } from 'express';
 
-const transacaoRouter = Router();
+import Nomes from '../models/Nomes';
 
-const nomes: { name: string }[] = [];
+const usersRouter = Router();
 
-transacaoRouter.get('/', (request, response) => {
+const nomes: Nomes[] = [];
+
+usersRouter.get('/', (request, response) => {
   try {
     return response.json({ nomes });
   } catch {
@@ -12,17 +17,16 @@ transacaoRouter.get('/', (request, response) => {
   }
 });
 
-transacaoRouter.post('/', (request, response) => {
+usersRouter.post('/', (request, response) => {
   try {
-    const { name } = request.body;
+    const { name, cidade } = request.body;
 
-    const nome = {
-      name,
-    };
+    const nome = new Nomes(name, cidade);
 
     if (typeof name === 'string') {
       const nome = {
         name,
+        cidade,
       };
       nomes.push(nome);
 
@@ -35,4 +39,4 @@ transacaoRouter.post('/', (request, response) => {
   }
 });
 
-export default transacaoRouter;
+export default usersRouter;

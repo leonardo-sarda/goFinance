@@ -1,6 +1,6 @@
 class Nomes {
   name: string;
-  cidade: string;
+  cidade?: string;
 
   // constructor({ name }: Omit<Nomes>) {
   //   this.name = name;
