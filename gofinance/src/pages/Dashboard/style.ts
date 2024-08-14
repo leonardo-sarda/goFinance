@@ -18,12 +18,11 @@ export const CardContainer = styled.div`
   margin-top: -150px;
 `;
 
-export const Card = styled.div`
-  background: #ff872c; /**Refazer */
-  opacity: inherit;
+export const Card = styled.div<CardProps>`
+  background: #ff872c;
   padding: 22px 32px;
   border-radius: 5px;
-  color: green; /*refazer */
+  color: ${({ total }: CardProps): string => (total ? '#fff' : '#363F5F')};
 
   header {
     display: flex;

@@ -18,9 +18,15 @@ interface Transacao {
   valorFormatada: string;
   type: 'income' | 'outcome';
 }
+interface Balance {
+  income: string;
+  outcome: string;
+  total: string;
+}
 
 const Dashboard: React.FC = () => {
   const [transacoes, setTransacoes] = useState<Transacao[]>([]);
+  const [balance, setBalance] = useState<Balance>({} as Balance);
 
   useEffect(() => {
     async function loadTransacao(): Promise<void> {
@@ -33,6 +39,12 @@ const Dashboard: React.FC = () => {
         }),
       );
 
+      const balanceFormatado = {
+        income: formatValue(response.data.balance.income),
+        outcome: formatValue(response.data.balance.outcome),
+        total: formatValue(response.data.balance.total),
+      };
+      setBalance(balanceFormatado);
       setTransacoes(listarTransacao);
     }
 
@@ -48,21 +60,21 @@ const Dashboard: React.FC = () => {
               <p>Entradas</p>
               <img src={Income} alt="Income" />
             </header>
-            <h1 data-testid="balance-income">500</h1>
+            <h1 data-testid="balance-income">{balance.income}</h1>
           </Card>
           <Card>
             <header>
               <p>Saídas</p>
               <img src={Outcome} alt="Outcome" />
             </header>
-            <h1 data-testid="balance-outcome">200</h1>
+            <h1 data-testid="balance-outcome">{balance.outcome}</h1>
           </Card>
           <Card>
             <header>
               <p>Total</p>
               <img src={Total} alt="Total" />
             </header>
-            <h1 data-testid="balance-total">300</h1>
+            <h1 data-testid="balance-total">{balance.total}</h1>
           </Card>
         </CardContainer>
 
@@ -73,7 +85,7 @@ const Dashboard: React.FC = () => {
                 <th>Título</th>
                 <th>Preço</th>
                 <th>Categoria</th>
-                <th>teste</th>
+                {/* <th>Data</th> */}
               </tr>
             </thead>
 
@@ -83,7 +95,7 @@ const Dashboard: React.FC = () => {
                   <td className="title">{transacao.title}</td>
                   <td className="value">{transacao.valorFormatada}</td>
                   <td className="type">{transacao.type}</td>
-                  <td className="id">{transacao.id}</td>
+                  {/* <td className="id">{transacao.}</td> */}
                 </tr>
               ))}
             </tbody>
